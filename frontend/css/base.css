@@ -1,0 +1,89 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --dlsu-green: #087830; /* DLSU Green */
+    --light-green: #e6f0ed;
+    --gold: #F9A825;
+    --light-gray: #f4f4f4;
+    --medium-gray: #ccc;
+    --dark-gray: #333;
+    --white: #ffffff;
+    --danger-red: #d9534f;
+    --danger-red-bg: #f2dede;
+    --success-green: #5cb85c;
+}
+
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    color: var(--dark-gray);
+    background-color: var(--light-gray); /* Default background */
+}
+
+main {
+    padding: 20px;
+    max-width: 1100px;
+    margin: 20px auto;
+    background-color: var(--white);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; 
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    color: #666;
+    font-size: 0.9em;
+    border-top: 1px solid #eee;
+}
+
+a {
+    color: var(--dlsu-green);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    cursor: pointer;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    background-color: var(--dlsu-green);
+    color: var(--white);
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #004a36;
+}
+
+button:disabled {
+    background-color: var(--medium-gray);
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: var(--danger-red);
+    background-color: var(--danger-red-bg);
+    border: 1px solid var(--danger-red);
+    padding: 10px 15px;
+    margin-top: 15px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+h1, h2, h3 {
+    color: var(--dark-gray);
+}
