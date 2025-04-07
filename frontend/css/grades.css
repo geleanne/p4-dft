@@ -1,0 +1,149 @@
+/* grades.css */
+:root {
+    --dlsu-green: #087830;
+    --light-green: #e6f0ed;
+    --gold: #F9A825;
+    --light-gray: #f4f4f4;
+    --medium-gray: #ccc;
+    --dark-gray: #333;
+    --white: #ffffff;
+    --danger-red: #d9534f;
+    --success-green: #5cb85c;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--dlsu-green);
+    color: var(--white);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--white);
+}
+
+header nav a {
+    color: var(--white);
+    text-decoration: none;
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+header nav a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+main {
+    padding: 20px;
+    max-width: 960px;
+    margin: 20px auto;
+    background-color: var(--white);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h2 {
+    color: var(--dlsu-green);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--light-green);
+    padding-bottom: 0.5rem;
+}
+
+#grades-list {
+    margin-top: 1rem;
+}
+
+#grades-list p {
+    font-style: italic;
+    color: var(--medium-gray);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    border: 1px solid var(--medium-gray);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 0.8rem 1.2rem;
+    text-align: left;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+th {
+    background-color: var(--dlsu-green);
+    color: var(--white);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--light-green);
+}
+
+tbody tr:hover {
+    background-color: #f0f8f5;
+}
+
+.error-message {
+    color: var(--danger-red);
+    background-color: #fdecea;
+    border: 1px solid var(--danger-red);
+    padding: 15px; /* Slightly increased padding for better visual */
+    border-radius: 4px;
+    margin-top: 1rem;
+    text-align: center; /* Center the error message */
+}
+
+.error-message::before {
+    content: "⚠️"; /* Add the warning emoji */
+    font-size: 1.5em; /* Adjust size of the emoji */
+    display: block; /* Put the emoji on its own line */
+    margin-bottom: 0.5rem; /* Add some space below the emoji */
+}
+
+.error-message small {
+    display: block;
+    font-size: 0.9em;
+    color: #721c24;
+    margin-top: 0.5rem; /* Add some space above the small text */
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    color: #666;
+    font-size: 0.9em;
+    border-top: 1px solid #eee;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+    th, td {
+        white-space: nowrap;
+    }
+}

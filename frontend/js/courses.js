@@ -38,8 +38,8 @@ function displayCourses(courses) {
     const header = document.createElement('div');
     header.classList.add('course-grid-header');
     header.innerHTML = `
-        <div>ID</div>
-        <div>Title</div>
+        <div>Course ID</div>
+        <div>Course Title</div>
         <div>Capacity</div>
         <div>Enrolled</div>
         <div>Status</div>
@@ -56,8 +56,8 @@ function displayCourses(courses) {
         const statusText = course.isOpen ? 'Open' : 'Closed';
 
         courseElement.innerHTML = `
-        <div class="course-id" data-label="ID">${course.id}</div>
-        <div class="course-title" data-label="Title">${course.title}</div>
+        <div class="course-id" data-label="Course Code">${course.id}</div>
+        <div class="course-title" data-label="Course Title">${course.title}</div>
         <div class="course-capacity" data-label="Capacity">${course.capacity}</div>
         <div class="course-enrolled" data-label="Enrolled">${course.enrolled}</div>
         <div class="course-status" data-label="Status">

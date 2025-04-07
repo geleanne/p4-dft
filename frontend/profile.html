@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Online Enrollment</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+    <header>
+        <h1>My Profile</h1>
+        <nav>
+            <a href="courses.html">Course Offerings</a>
+            <a href="grades.html">View Grades</a>
+            <a href="login.html">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="profile-info">
+            <h2>Welcome, <span id="user-name">User</span>!</h2>
+            <p>Account Type: <span id="account-type">Student/Faculty</span></p>
+            </section>
+
+        <section id="profile-actions">
+            <h2>Actions</h2>
+            <button onclick="window.location.href='courses.html'">View Course Offerings</button>
+            <button onclick="window.location.href='grades.html'">View Grades</button>
+            </section>
+    </main>
+
+    <footer>
+        <p>&copy; (2025) discm buddies</p>
+    </footer>
+
+    <script src="js/profile.js"></script>
+</body>
+</html>
