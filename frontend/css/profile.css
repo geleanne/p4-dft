@@ -29,17 +29,18 @@ header {
 }
 
 header h1 {
-    margin: 0;
-    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
     color: var(--white);
+    justify-content: flex-start;
 }
 
-header nav a {
+header a {
     color: var(--white);
     text-decoration: none;
-    margin-left: 1rem;
     padding: 0.5rem 1rem;
     border-radius: 4px;
+
     transition: background-color 0.2s ease;
 }
 
