@@ -1,7 +1,7 @@
 // #define CPPHTTPLIB_OPENSSL_SUPPORT // requires OpenSSL libraries
 
-#include "../lib/httplib.h"
-#include "../lib/json.hpp"
+#include "../../lib/httplib.h"
+#include "../../lib/json.hpp"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -33,10 +33,12 @@ struct Course {
 // mock database
 std::vector<Course> getAvailableCourses() {
     return {
-        Course("CSSECDV", "Secure Web Development", 30, 25),
-        Course("STDISCM", "Distributed Computing", 25, 26), // example of a closed course
-        Course("GEUSELF", "Understanding the Self", 20, 15),
-        Course("STINTSY", "Advanced Intelligent Systems", 35, 30)
+        Course("STMETHD", "ST Reseach Methods", 30, 21),
+        Course("MOBDEVE", "Mobile Development", 25, 25), // example of a closed course
+        Course("GEUSELF", "Understanding the Self", 40, 15),
+        Course("CSOPESY", "Introduction to Operating Systems", 42, 30),
+        Course("STSWENG", "Advanced Software Engineering", 35, 19),
+        Course("PRCCSST", "Practicum for ST Students", 40, 9),
     };
 }
 
