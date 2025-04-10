@@ -10,9 +10,12 @@
 <body class="login-page">
     <header>
         <h1>DLSU Enrollment System</h1>
-        </header>
+    </header>
 
     <main>
+        <div id="server-down-message" class="error-message" style="display: none;">
+            The login server is currently down. Please try again later.
+        </div>
         <section id="login-section">
             <form id="login-form">
                 <div>
@@ -26,11 +29,13 @@
                 <div>
                     <button type="submit">Login</button>
                 </div>
-                 <p id="login-message"></p> </form>
-             <p>Don't have an account? <a href="#">Register here</a></p>
-             <a href="courses.html">View Course Offerings</a>
+                <p id="login-message"></p>
+            </form>
+            <p>Don't have an account? <a href="#">Register here</a></p>
+            <a href="courses.html">View Course Offerings</a>
         </section>
     </main>
 
-    </body>
+    <script src="js/login.js"></script>
+</body>
 </html>

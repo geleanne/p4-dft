@@ -108,17 +108,17 @@ tbody tr:hover {
     color: var(--danger-red);
     background-color: #fdecea;
     border: 1px solid var(--danger-red);
-    padding: 15px; /* Slightly increased padding for better visual */
+    padding: 15px;
     border-radius: 4px;
     margin-top: 1rem;
-    text-align: center; /* Center the error message */
+    text-align: center; 
 }
 
 .error-message::before {
-    content: "⚠️"; /* Add the warning emoji */
-    font-size: 1.5em; /* Adjust size of the emoji */
-    display: block; /* Put the emoji on its own line */
-    margin-bottom: 0.5rem; /* Add some space below the emoji */
+    content: "⚠️"; 
+    font-size: 1.5em;
+    display: block; 
+    margin-bottom: 0.5rem; 
 }
 
 .error-message small {

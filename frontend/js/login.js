@@ -1,30 +1,57 @@
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('login-form');
     const loginMessage = document.getElementById('login-message');
-
-    // Hardcoded accounts (username: password)
-    const hardcodedAccounts = {
-        'student1': 'pass123',
-        'faculty1': 'secure456',
-        'admin': 'admin123'
-    };
+    const serverDownMessage = document.getElementById('server-down-message');
 
     loginForm.addEventListener('submit', function(event) {
         event.preventDefault();
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        if (hardcodedAccounts.hasOwnProperty(username) && hardcodedAccounts[username] === password) {
-            // Successful login
-            loginMessage.textContent = ''; // Clear any previous error messages
-            loginMessage.className = '';
-            // Simulate setting a token (optional, for future enhancements)
-            localStorage.setItem('authToken', 'hardcoded_token_' + username);
-            window.location.href = 'profile.html'; // Redirect to profile page
-        } else {
-            // Failed login
-            loginMessage.textContent = 'Invalid username or password.';
-            loginMessage.className = 'error-message';
-        }
+        fetch('http://localhost:8083/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: username, password: password })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => {throw err});
+            }
+            return response.json();
+        })
+        .then(data => {
+            localStorage.setItem('authToken', data.token);
+            window.location.href = 'http://127.0.0.1:5500/frontend/grades.html';
+        })
+        .catch(error => {
+            if (error.error) {
+                // Check if the error is due to invalid credentials (more robust check)
+                if (error.error.includes("Invalid username or password")) {
+                    loginMessage.textContent = "Invalid login credentials. Please try again.";
+                } else {
+                    loginMessage.textContent = error.error;
+                }
+                loginMessage.className = 'error-message';
+                serverDownMessage.style.display = 'none';
+            } else if (error.message === "Failed to fetch") {
+                serverDownMessage.style.display = 'block';
+                loginMessage.textContent = "";
+            } else {
+                loginMessage.textContent = 'Login failed. Please try again.';
+                loginMessage.className = 'error-message';
+                serverDownMessage.style.display = 'none';
+            }
+        });
     });
+
+    // Check if the login server is running on page load
+    fetch('http://localhost:8083/api/login', { method: 'OPTIONS' })
+    .catch(() => {
+        serverDownMessage.style.display = 'block';
+        loginForm.style.display = 'none';
+    });
+
+    
 });

@@ -7,10 +7,17 @@ For this exercise, we are tasked to create an **online enrollment system** with 
 1. Open `login.html` using Live Server (VSCode)
 2. On the login page, click **View Course Offerings** at the bottom.
 
-### Backend (View available courses)
-1. Navigate to the backend folder by typing `cd backend` in the terminal.
+### Backend (Login)
+1. Navigate to the backend folder by typing `cd login_backend` in the terminal.
 2. Compile the backend using the following command:\
-`g++ src/main.cpp -o course_server.exe -I./include -I./lib -static-libgcc -static-libstdc++ -lws2_32 -lpthread -std=c++17`
+`g++ login_server.cpp -o login_server.exe -I../../lib -I../backend/vcpkg/installed/x64-windows/include -L../backend/vcpkg/installed/x64-windows/lib -lssl -lcrypto -static-libgcc -static-libstdc++ -lws2_32 -lpthread -std=c++17`
+3. Run the backend: `login_server.exe` in the terminal.
+4. **Login form** should now be viewable
+
+### Backend (View available courses)
+1. Navigate to the backend folder by typing `cd course_backend` in the terminal.
+2. Compile the backend using the following command:\
+`g++ main.cpp -o course_server.exe -I./include -I./lib -static-libgcc -static-libstdc++ -lws2_32 -lpthread -std=c++17`
 3. Run the backend: `course_server.exe` in the terminal.
 4. **Available courses** should now be viewable.
 
