@@ -28,7 +28,10 @@ header {
     align-items: center;
 }
 
+
 header h1 {
+    margin: 0;
+    font-size: 1.8rem;
     display: flex;
     align-items: center;
     color: var(--white);
@@ -36,15 +39,15 @@ header h1 {
 }
 
 header a {
-    color: var(--white);
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-
-    transition: background-color 0.2s ease;
+        color: var(--white);
+        text-decoration: none;
+        margin-left: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
 }
 
-header nav a:hover {
+header a:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 

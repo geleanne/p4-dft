@@ -1,10 +1,14 @@
 #include "../lib/httplib.h"
 #include "../lib/json.hpp"
-#include "../backend/vcpkg/installed/x64-windows/include/jwt-cpp/jwt.h"
+#include "../backend/include/jwt-cpp/jwt.h"
 #include <iostream>
 #include <string>
 #include <chrono>
 #include <cstdlib>
+#include <fstream> 
+#include <sstream>
+#include <fstream> 
+#include <sstream> 
 
 using json = nlohmann::json;
 
@@ -15,7 +19,7 @@ std::string generateJWT(const std::string& userId, const std::string& userRole, 
     auto token = jwt::create()
         .set_issuer("your_issuer")
         .set_type("JWS")
-        .set_payload_claim("user_id", jwt::claim(userId))
+        .set_payload_claim("sub", jwt::claim(userId))
         .set_payload_claim("role", jwt::claim(userRole))
         .set_issued_at(now)
         .set_expires_at(exp)
@@ -24,12 +28,29 @@ std::string generateJWT(const std::string& userId, const std::string& userRole, 
     return token;
 }
 
+std::string readSecretKeyFromConfig() {
+    std::ifstream configFile("../config.txt");
+    std::string line;
+    while (std::getline(configFile, line)) {
+        if (line.find("JWT_SECRET_KEY=") != std::string::npos) {
+            return line.substr(line.find('=') + 1);
+        }
+    }
+    throw std::runtime_error("JWT_SECRET_KEY not found in config.txt");
+}
+
 int main() {
     httplib::Server svr;
 
+
+    // hardcoded accounts map
     std::map<std::string, std::string> hardcodedAccounts = {
         {"student1@dlsu.edu.ph", "pass123"},
+        {"student2@dlsu.edu.ph", "pass456"},
+        {"student3@dlsu.edu.ph", "pass789"},
         {"faculty1@dlsu.edu.ph", "secure456"},
+        {"faculty2@dlsu.edu.ph", "secure789"},
+        {"faculty3@dlsu.edu.ph", "secure012"},
         {"admin@dlsu.edu.ph", "admin123"}
     };
 
@@ -64,13 +85,14 @@ int main() {
                     else if (username == "admin@dlsu.edu.ph") role = "admin";
                     std::cout << "Login Successful" << std::endl;
 
-                    const char* secretKeyPtr = std::getenv("JWT_SECRET_KEY");
-                    if (!secretKeyPtr) {
+                    std::string secretKey;
+                    try {
+                        secretKey = readSecretKeyFromConfig();
+                    } catch (const std::exception& e) {
                         res.status = 500;
-                        res.set_content("{\"error\": \"JWT_SECRET_KEY not set!\"}", "application/json");
+                        res.set_content("{\"error\": \"Failed to read JWT secret from config\"}", "application/json");
                         return;
                     }
-                    std::string secretKey(secretKeyPtr);
 
                     std::string token = generateJWT(username, role, secretKey);
 

@@ -1,8 +1,12 @@
 #include "../lib/httplib.h"
 #include "../lib/json.hpp"
+#include "../backend/include/jwt-cpp/jwt.h"
 #include <vector>
 #include <string>
+#include <cstdlib>
 #include <iostream>
+#include <fstream> 
+#include <sstream> 
 
 // nlohmann/json library namespace
 using json = nlohmann::json;
@@ -29,21 +33,45 @@ struct Grade {
     }
 };
 
-// mock database for grades (replace with actual data source)
+// mock database for grades
 std::vector<Grade> getStudentGrades(const std::string& studentId) {
-    // in a real system, you would query a database based on the studentId
-    if (studentId == "123") {
+    if (studentId == "student1@dlsu.edu.ph") {
         return {
             Grade("CSSECDV", "Secure Web Development", "3.0", "1st", "2024-2025"),
+            Grade("LASARE2", "Lasallian Reflection 2", "3.5", "1st", "2024-2025"),
             Grade("STDISCM", "Distributed Computing", "4.0", "1st", "2024-2025"),
-            Grade("GEUSELF", "Understanding the Self", "2.5", "1st", "2024-2025")
         };
-    } else if (studentId == "456") {
+    } else if (studentId == "student2@dlsu.edu.ph") {
         return {
-            Grade("STINTSY", "Advanced Intelligent Systems", "3.5", "1st", "2024-2025")
+            Grade("STDISCM", "Distributed Computing", "4.0", "1st", "2024-2025"),
+            Grade("MOBDEVE", "Mobile Development", "4.0", "1st", "2024-2025"),
+            Grade("CCINOV8", "Innovation and Technology Management", "3.5", "1st", "2024-2025"),
+            Grade("GEUSELF", "Understanding the Self", "2.5", "1st", "2024-2025"),
+            Grade("STMETHD", "ST Research Methods", "4.0", "1st", "2024-2025"),
+        };
+    } else if (studentId == "student3@dlsu.edu.ph") {
+        return {
+            Grade("STINTSY", "Advanced Intelligent Systems", "3.5", "1st", "2024-2025"),
+            Grade("STMETHD", "ST Research Methods", "3.5", "1st", "2024-2025"),
+            Grade("SAS3000", "Student Affairs Services 3000", "4.0", "1st", "2024-2025"),
+            Grade("STHCUIX", "Human Computer Interactions", "3.5", "1st", "2024-2025"),
+            Grade("GEARTAP", "Art Appreciation", "3.0", "1st", "2024-2025"),
+            Grade("STDISCM", "Distributed Computing", "4.0", "1st", "2024-2025")
+
         };
     }
     return {};
+}
+
+std::string readSecretKeyFromConfig() {
+    std::ifstream configFile("../config.txt");
+    std::string line;
+    while (std::getline(configFile, line)) {
+        if (line.find("JWT_SECRET_KEY=") != std::string::npos) {
+            return line.substr(line.find('=') + 1);
+        }
+    }
+    throw std::runtime_error("JWT_SECRET_KEY not found in config.txt");
 }
 
 int main() {
@@ -51,26 +79,36 @@ int main() {
 
     // API Endpoint: GET /api/grades (requires Authorization)
     svr.Get("/api/grades", [](const httplib::Request& req, httplib::Response& res) {
-        std::cout << "Received request for /api/grades" << std::endl;
         try {
-            // in a real system, you would extract the student ID from the JWT token
-            // for this mock, we'll just use a hardcoded student ID
-            std::string studentId = "123"; // replace with actual student ID retrieval
-
-            // Authorization header (Bearer token)
             std::string authorizationHeader = req.get_header_value("Authorization");
             if (authorizationHeader.empty() || authorizationHeader.find("Bearer ") != 0) {
                 res.status = 401;
-                res.set_content("{\"error\": \"Unauthorized: Missing or invalid Bearer token.\"}", "application/json");
+                res.set_content("{\"error\": \"Unauthorized\"}", "application/json");
                 return;
             }
 
-            // in a real system, we would verify the JWT token here
-            std::string token = authorizationHeader.substr(7); // extract the token
+            std::string secretKey;
+            try {
+                secretKey = readSecretKeyFromConfig();
+            } catch (const std::exception& e) {
+                res.status = 500;
+                res.set_content("{\"error\": \"Failed to read JWT secret from config\"}", "application/json");
+                return;
+            }
 
-            // for this mock, we'll just assume the token is valid and extract the student ID
+        // Verify and decode token
+        std::string token = authorizationHeader.substr(7);
+        auto decoded = jwt::decode(token);
+        auto verifier = jwt::verify().allow_algorithm(jwt::algorithm::hs256{secretKey});
+        verifier.verify(decoded);
 
-            std::vector<Grade> grades = getStudentGrades(studentId);
+        
+        // Extract user ID from token
+        std::string studentId = decoded.get_payload_claim("sub").as_string();
+        std::cout << "Extracted studentId from token: " << studentId << std::endl;
+
+        // Get grades for this specific student
+        std::vector<Grade> grades = getStudentGrades(studentId);
 
             json json_response = json::array();
             for (const auto& grade : grades) {
@@ -82,14 +120,13 @@ int main() {
             res.set_content(json_response.dump(), "application/json");
             std::cout << "Successfully sent grades for student " << studentId << "." << std::endl;
 
-        } catch (const std::exception& e) {
-            std::cerr << "Error processing /api/grades: " << e.what() << std::endl;
+        }  catch (const jwt::error::signature_verification_exception& e) {
+            res.status = 401;
+            res.set_content("{\"error\": \"Invalid token\"}", "application/json");
+        }
+        catch (const std::exception& e) {
             res.status = 500;
-            res.set_content("{\"error\": \"Internal server error processing grade data.\"}", "application/json");
-        } catch (...) {
-            std::cerr << "Unknown error processing /api/grades." << std::endl;
-            res.status = 500;
-            res.set_content("{\"error\": \"An unknown internal server error occurred.\"}", "application/json");
+            res.set_content("{\"error\": \"" + std::string(e.what()) + "\"}", "application/json");
         }
     });
 

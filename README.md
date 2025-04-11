@@ -24,6 +24,6 @@ For this exercise, we are tasked to create an **online enrollment system** with 
 ### Backend (Students to view previous grades)
 1. Navigate to the backend folder by typing `cd grades_backend` in the terminal.
 2. Compile the backend using the following command:\
-`g++ grades_server.cpp -o grades_server.exe -I./include -I./lib -static-libgcc -static-libstdc++ -lws2_32 -lpthread -std=c++17`
+`g++ grades_server.cpp -o grades_server.exe -I./include -I./lib -static-libgcc -static-libstdc++ -lws2_32 -lpthread -std=c++17 -lssl -lcrypto`
 3. Run the backend: `grades_server.exe` in the terminal.
 4. **Students' previous grades** should now be viewable.

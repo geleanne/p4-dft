@@ -33,3 +33,4 @@ dist/       # If you have a frontend build
 # OS generated files
 .DS_Store
 Thumbs.db
+grades_backend/grades_server.exe
