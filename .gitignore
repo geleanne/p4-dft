@@ -1,8 +1,35 @@
-/build/
+# Build artifacts
+build/
+CMakeFiles/
+CMakeCache.txt
+Makefile
 *.exe
-*.o
-*.obj
-.vscode
 *.dll
-/config.txt
-login_backend/config.txt
+*.lib
+*.so
+*.dylib
+*.obj
+
+# vcpkg build directory
+vcpkg/
+
+# IDE specific files
+.vscode/
+.idea/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.user
+*.suo
+
+# Other temporary files or directories
+tmp/
+temp/
+logs/
+node_modules/ # If you have a frontend part
+dist/       # If you have a frontend build
+.env        # Environment variables (sensitive info)
+
+# OS generated files
+.DS_Store
+Thumbs.db

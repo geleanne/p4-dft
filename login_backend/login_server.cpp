@@ -34,14 +34,18 @@ int main() {
     };
 
     svr.Post("/api/login", [&](const httplib::Request& req, httplib::Response& res) {
-        try {
-            if (req.body.empty()) {
-                res.status = 400;
-                res.set_content("{\"error\": \"Request body is empty.\"}", "application/json");
-                return;
-            }
+        // Set CORS headers ONCE at the start
+        res.set_header("Access-Control-Allow-Origin", "*");
+        res.set_header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        res.set_header("Access-Control-Allow-Methods", "POST, OPTIONS");
 
             try {
+                if (req.body.empty()) {
+                    res.status = 400;
+                    res.set_content("{\"error\": \"Request body is empty.\"}", "application/json");
+                    return;
+                }
+        
                 json body = json::parse(req.body);
                 std::string username = body["username"];
                 std::string password = body["password"];
@@ -55,13 +59,11 @@ int main() {
                     return;
                 }
 
-                if (hardcodedAccounts.find(username) != hardcodedAccounts.end() && hardcodedAccounts[username] == password) {
-                    std::string role = "student";
+                if (hardcodedAccounts.find(username) != hardcodedAccounts.end() && hardcodedAccounts[username] == password) {                    std::string role = "student";
                     if (username == "faculty1@dlsu.edu.ph") role = "faculty";
                     else if (username == "admin@dlsu.edu.ph") role = "admin";
                     std::cout << "Login Successful" << std::endl;
 
-                    
                     const char* secretKeyPtr = std::getenv("JWT_SECRET_KEY");
                     if (!secretKeyPtr) {
                         res.status = 500;
@@ -77,8 +79,8 @@ int main() {
                         {"message", "Login successful"}
                     };
 
-                    res.set_header("Content-Type", "application/json");
                     res.set_content(response.dump(), "application/json");
+                    res.status = 200;
                 } else {
                     res.status = 401;
                     res.set_content("{\"error\": \"Invalid username or password\"}", "application/json");
@@ -86,15 +88,12 @@ int main() {
             } catch (const json::parse_error& e) {
                 res.status = 400;
                 res.set_content("{\"error\": \"Invalid JSON in request body.\"}", "application/json");
-                return;
+            } catch (const std::exception& e) {
+                res.status = 500;
+                res.set_content("{\"error\": \"Internal server error\"}", "application/json");
             }
+        });
 
-        } catch (const std::exception& e) {
-            std::cerr << "Error processing login: " << e.what() << std::endl;
-            res.status = 500;
-            res.set_content("{\"error\": \"Internal server error\"}", "application/json");
-        }
-    });
 
     svr.Options("/api/login", [&](const httplib::Request& req, httplib::Response& res) {
         res.set_header("Access-Control-Allow-Origin", "*");

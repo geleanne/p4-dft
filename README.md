@@ -17,7 +17,7 @@ For this exercise, we are tasked to create an **online enrollment system** with 
 ### Backend (View available courses)
 1. Navigate to the backend folder by typing `cd course_backend` in the terminal.
 2. Compile the backend using the following command:\
-`g++ main.cpp -o course_server.exe -I./include -I./lib -static-libgcc -static-libstdc++ -lws2_32 -lpthread -std=c++17`
+`g++ course_server.cpp -o course_server.exe -I./include -I./lib -static-libgcc -static-libstdc++ -lws2_32 -lpthread -std=c++17`
 3. Run the backend: `course_server.exe` in the terminal.
 4. **Available courses** should now be viewable.
 

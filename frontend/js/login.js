@@ -16,11 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
             body: JSON.stringify({ username: username, password: password })
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => {throw err});
+            if (response.status === 200) {
+              return response.json(); // Proceed for 200 OK
+            } else {
+              return response.json().then(err => { throw err });
             }
-            return response.json();
-        })
+          })
         .then(data => {
             localStorage.setItem('authToken', data.token);
             window.location.href = 'http://127.0.0.1:5500/frontend/grades.html';
@@ -46,12 +47,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Check if the login server is running on page load
+
+// Check if the login server is running on page load
     fetch('http://localhost:8083/api/login', { method: 'OPTIONS' })
+    .then(() => {
+        serverDownMessage.style.display = 'none';
+        loginForm.style.display = 'block';
+    })
     .catch(() => {
         serverDownMessage.style.display = 'block';
         loginForm.style.display = 'none';
     });
-
     
 });
