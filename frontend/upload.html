@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Grades - Faculty Portal</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/upload.css">
+</head>
+<body>
+    <header>
+        <h1>Faculty Grade Upload</h1>
+        <nav>
+            <a href="login.html">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="upload-section">
+            <h2>Upload Student Grades</h2>
+            
+            <div class="upload-methods">
+                <!-- Manual Entry -->
+                <div class="upload-method">
+                    <h3>Single Entry</h3>
+                    <form id="manual-upload">
+                        <div class="form-group">
+                            <label for="student-select">Student:</label>
+                            <select id="student-select" required>
+                                <option value="">Select Student</option>
+                                <option value="student1@dlsu.edu.ph">Student 1</option>
+                                <option value="student2@dlsu.edu.ph">Student 2</option>
+                                <option value="student3@dlsu.edu.ph">Student 3</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="course-select">Course:</label>
+                            <select id="course-select" required>
+                                <option value="">Select Course</option>
+                                <option value="STDISCM">Distributed Computing</option>
+                                <option value="CSSECDV">Secure Development</option>
+                                <option value="STINTSY">Intelligent Systems</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="grade">Grade:</label>
+                            <input type="text" id="grade" pattern="[0-4]\.0" title="0.0 to 4.0" required>
+                        </div>
+
+                        <button type="submit">Submit Grade</button>
+                    </form>
+                </div>
+
+                <!-- CSV Upload -->
+                <div class="upload-method">
+                    <h3>Bulk Upload (CSV)</h3>
+                    <form id="csv-upload">
+                        <div class="form-group">
+                            <input type="file" id="csv-file" accept=".csv" required>
+                            <small>CSV format: StudentEmail,CourseCode,Grade</small>
+                        </div>
+                        <button type="submit">Upload CSV</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="upload-message" class="hidden"></div>
+        </section>
+    </main>
+
+    <script src="js/upload.js"></script>
+</body>
+</html>

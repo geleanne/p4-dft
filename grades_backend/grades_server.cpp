@@ -35,13 +35,13 @@ struct Grade {
 
 // mock database for grades
 std::vector<Grade> getStudentGrades(const std::string& studentId) {
-    if (studentId == "student1@dlsu.edu.ph") {
+    if (studentId == "atienza@dlsu.edu.ph") {
         return {
             Grade("CSSECDV", "Secure Web Development", "3.0", "1st", "2024-2025"),
             Grade("LASARE2", "Lasallian Reflection 2", "3.5", "1st", "2024-2025"),
             Grade("STDISCM", "Distributed Computing", "4.0", "1st", "2024-2025"),
         };
-    } else if (studentId == "student2@dlsu.edu.ph") {
+    } else if (studentId == "bernardo@dlsu.edu.ph") {
         return {
             Grade("STDISCM", "Distributed Computing", "4.0", "1st", "2024-2025"),
             Grade("MOBDEVE", "Mobile Development", "4.0", "1st", "2024-2025"),
@@ -49,13 +49,19 @@ std::vector<Grade> getStudentGrades(const std::string& studentId) {
             Grade("GEUSELF", "Understanding the Self", "2.5", "1st", "2024-2025"),
             Grade("STMETHD", "ST Research Methods", "4.0", "1st", "2024-2025"),
         };
-    } else if (studentId == "student3@dlsu.edu.ph") {
+    } else if (studentId == "tighe@dlsu.edu.ph") {
         return {
             Grade("STINTSY", "Advanced Intelligent Systems", "3.5", "1st", "2024-2025"),
             Grade("STMETHD", "ST Research Methods", "3.5", "1st", "2024-2025"),
             Grade("SAS3000", "Student Affairs Services 3000", "4.0", "1st", "2024-2025"),
             Grade("STHCUIX", "Human Computer Interactions", "3.5", "1st", "2024-2025"),
             Grade("GEARTAP", "Art Appreciation", "3.0", "1st", "2024-2025"),
+            Grade("STDISCM", "Distributed Computing", "4.0", "1st", "2024-2025")
+
+        };
+    } else if (studentId == "rivera@dlsu.edu.ph") {
+        return {
+            Grade("GEUSELF", "Understanding the Self", "2.5", "1st", "2024-2025"),
             Grade("STDISCM", "Distributed Computing", "4.0", "1st", "2024-2025")
 
         };
@@ -106,14 +112,14 @@ int main() {
         // Extract user ID from token
         std::string studentId = decoded.get_payload_claim("sub").as_string();
         std::cout << "Extracted studentId from token: " << studentId << std::endl;
-
-        // Get grades for this specific student
+        
         std::vector<Grade> grades = getStudentGrades(studentId);
-
-            json json_response = json::array();
-            for (const auto& grade : grades) {
-                json_response.push_back(grade.toJson());
-            }
+        std::cout << "Number of grades found: " << grades.size() << std::endl; 
+        
+        json json_response = json::array();
+        for (const auto& grade : grades) {
+            json_response.push_back(grade.toJson());
+        }
 
             res.set_header("Access-Control-Allow-Origin", "*");
             res.set_header("Content-Type", "application/json");
