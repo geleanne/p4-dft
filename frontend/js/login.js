@@ -24,7 +24,11 @@ document.addEventListener('DOMContentLoaded', function() {
           })
         .then(data => {
             localStorage.setItem('authToken', data.token);
-            window.location.href = 'http://127.0.0.1:5500/frontend/grades.html';
+            loginMessage.textContent = 'Logging you in...';
+            loginMessage.className = 'success-message';
+            setTimeout(() => {
+                window.location.href = 'http://127.0.0.1:5500/frontend/grades.html';
+            }, 2000); 
         })
         .catch(error => {
             if (error.error) {

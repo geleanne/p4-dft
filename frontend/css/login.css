@@ -135,3 +135,18 @@ body.login-page header h1 {
     text-align: center;
     border-radius: 4px;
 }
+
+.success-message {
+    margin-top: 15px;
+    font-size: 0.9em;
+    min-height: 1.2em;
+    color: var(--success-green);
+    text-align: center;
+}
+
+.success-message::before {
+    content: "✅";
+    font-size: 1.2em;
+    display: block;
+    margin-bottom: 0.3rem;
+}
