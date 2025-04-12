@@ -27,8 +27,7 @@ WORKDIR /app/grades_backend
 # -pthread for threading
 RUN g++ -o grades_server grades_server.cpp -I/app/lib -I/app/backend/include -lssl -lcrypto -pthread -std=c++17
 
-# Expose port 8085 (assumed; original code uses 8083, conflicting with Login)
-EXPOSE 8085
+EXPOSE 8081
 
 # Run the server
 CMD ["./grades_server"]
