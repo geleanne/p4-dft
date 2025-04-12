@@ -41,3 +41,14 @@ For this exercise, we are tasked to create an **online enrollment system** with 
 `g++ upload_server.cpp -o upload_server.exe -I./include -I./lib -static-libgcc -static-libstdc++ -lws2_32 -lpthread -std=c++17 -lssl -lcrypto`
 3. Run the backend: `upload_server.exe` in the terminal.
 4. **Spload students' grades portal** should now be viewable for the faculty.
+
+
+#### Build Commands for Dockerfile
+docker build -f login_backend/Dockerfile . -t login_backend
+docker build -f course_backend/Dockerfile . -t course_backend
+docker build -f enroll_backend/Dockerfile . -t enroll_backend
+docker build -f grades_backend/Dockerfile . -t grades_backend
+docker build -f upload_backend/Dockerfile . -t upload_backend
+docker build -f frontend/Dockerfile . -t frontend
+docker-compose build
+docker-compose up

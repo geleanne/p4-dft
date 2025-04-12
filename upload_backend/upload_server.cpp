@@ -68,6 +68,20 @@ int main() {
     });
     
     // Start Server
-    std::cout << "Upload server starting on 0.0.0.0:8084\n";
-    svr.listen("0.0.0.0", 8084);
+    const char* port_str = std::getenv("PORT");
+    if (!port_str) {
+        std::cerr << "PORT environment variable not set." << std::endl;
+        return 1;
+    }
+    int port;
+    try {
+        port = std::stoi(port_str);
+    } catch (const std::exception& e) {
+        std::cerr << "Invalid PORT value: " << port_str << std::endl;
+        return 1;
+    }
+
+    std::cout << "Upload server starting on 0.0.0.0:" << port << "\n";
+    svr.listen("0.0.0.0", port);
+    return 0;
 }

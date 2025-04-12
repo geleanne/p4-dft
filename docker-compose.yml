@@ -1,0 +1,69 @@
+version: '3'
+services:
+  login_backend:
+    build:
+      context: .
+      dockerfile: login_backend/Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      - PORT=8083
+    networks:
+      - enrollment-net
+
+  course_backend:
+    build:
+      context: .
+      dockerfile: course_backend/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+    networks:
+      - enrollment-net
+
+  enroll_backend:
+    build:
+      context: .
+      dockerfile: enroll_backend/Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - PORT=8082
+    networks:
+      - enrollment-net
+
+  grades_backend:
+    build:
+      context: .
+      dockerfile: grades_backend/Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=8081
+    networks:
+      - enrollment-net
+
+  upload_backend:
+    build:
+      context: .
+      dockerfile: upload_backend/Dockerfile
+    ports:
+      - "8084:8084"
+    environment:
+      - PORT=8084
+    networks:
+      - enrollment-net
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - enrollment-net
+
+networks:
+  enrollment-net:
+    driver: bridge

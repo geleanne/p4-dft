@@ -137,7 +137,18 @@ int main() {
     
     // --- start Server ---
     std::string host = "0.0.0.0";
-    int port = 8083;
+    const char* port_str = std::getenv("PORT");
+    if (!port_str) {
+        std::cerr << "PORT environment variable not set." << std::endl;
+        return 1;
+    }
+    int port;
+    try {
+        port = std::stoi(port_str);
+    } catch (const std::exception& e) {
+        std::cerr << "Invalid PORT value: " << port_str << std::endl;
+        return 1;
+    }
 
     std::cout << "Login server starting on " << host << ":" << port << std::endl;
     if (!svr.listen(host.c_str(), port)) {
