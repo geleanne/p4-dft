@@ -55,7 +55,6 @@ int main() {
     };
 
     svr.Post("/api/login", [&](const httplib::Request& req, httplib::Response& res) {
-        // Set CORS headers ONCE at the start
         res.set_header("Access-Control-Allow-Origin", "*");
         res.set_header("Access-Control-Allow-Headers", "Content-Type, Authorization");
         res.set_header("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -81,10 +80,10 @@ int main() {
 
         // 3. Determine role
         std::string role = "student"; // Default role
-        if (prefix.find("faculty") == 0) { // Starts with "faculty"
+        if (prefix.find("faculty") == 0) { 
             role = "faculty";
         } 
-        else if (prefix.find("student") == 0) { // Starts with "student"
+        else if (prefix.find("student") == 0) {
             role = "student";
         }
 
@@ -117,7 +116,6 @@ int main() {
     });
     
 
-
     svr.Options("/api/login", [&](const httplib::Request& req, httplib::Response& res) {
         res.set_header("Access-Control-Allow-Origin", "*");
         res.set_header("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -132,6 +130,11 @@ int main() {
         res.status = 204;
     });
 
+    svr.Get("/api/health", [](const httplib::Request& req, httplib::Response& res) {
+        res.set_header("Access-Control-Allow-Origin", "*");
+        res.set_content("OK", "text/plain");
+    });
+    
     // --- start Server ---
     std::string host = "0.0.0.0";
     int port = 8083;

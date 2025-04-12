@@ -22,14 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
               return response.json().then(err => { throw err });
             }
           })
-        // .then(data => {
-        //     localStorage.setItem('authToken', data.token);
-        //     loginMessage.textContent = 'Logging you in...';
-        //     loginMessage.className = 'success-message';
-        //     setTimeout(() => {
-        //         window.location.href = 'http://127.0.0.1:5500/frontend/grades.html';
-        //     }, 2000); 
-        // })
         .then(data => {
             localStorage.setItem('authToken', data.token);
             const tokenPayload = JSON.parse(atob(data.token.split('.')[1]));

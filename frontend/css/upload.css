@@ -46,24 +46,44 @@ button[type="submit"]:hover {
     background: #004a36;
 }
 
-#upload-message {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    border-radius: 4px;
-}
-
-.success {
-    background: var(--light-green);
-    border: 1px solid var(--dlsu-green);
-    color: var(--dlsu-green);
-}
-
-.error {
-    background: var(--danger-red-bg);
-    border: 1px solid var(--danger-red);
-    color: var(--danger-red);
-}
-
 .hidden {
     display: none;
+}
+
+#upload-message {
+    transition: all 0.3s ease;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center; /* Center the content */
+}
+
+#upload-message.success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+#upload-message.error {
+    background-color: #fdecea;
+    color: var(--danger-red);
+    border: 1px solid var(--danger-red);
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+#upload-message.error::before {
+    content: "⚠️";
+    font-size: 1.5em;
+    display: block; /* Make the emoji take its own line */
+    margin-bottom: 0.5rem; /* Add space between emoji and text */
+}
+
+#upload-message.hidden {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
 }
