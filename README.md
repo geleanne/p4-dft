@@ -21,6 +21,13 @@ For this exercise, we are tasked to create an **online enrollment system** with 
 3. Run the backend: `course_server.exe` in the terminal.
 4. **Available courses** should now be viewable.
 
+### Backend (Enroll Course)
+1. Navigate to the backend folder by typing `cd enroll_backend` in the terminal.
+2. Compile the backend using the following command:\
+`g++ enroll_server.cpp -o enroll_server.exe -I../../lib -I../backend/include -I../backend/vcpkg/installed/x64-windows/include -L../backend/vcpkg/installed/x64-windows/lib -lssl -lcrypto -static-libgcc -static-libstdc++ -lws2_32 -lpthread -std=c++17`
+3. Run the backend: `enroll_server.exe` in the terminal.
+4. **Enrollment of courses** should now be viewable for the students.
+
 ### Backend (Students to view previous grades)
 1. Navigate to the backend folder by typing `cd grades_backend` in the terminal.
 2. Compile the backend using the following command:\

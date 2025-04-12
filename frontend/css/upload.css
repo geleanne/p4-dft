@@ -76,8 +76,8 @@ button[type="submit"]:hover {
 #upload-message.error::before {
     content: "⚠️";
     font-size: 1.5em;
-    display: block; /* Make the emoji take its own line */
-    margin-bottom: 0.5rem; /* Add space between emoji and text */
+    display: block; 
+    margin-bottom: 0.5rem; 
 }
 
 #upload-message.hidden {

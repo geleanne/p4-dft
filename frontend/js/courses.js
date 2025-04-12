@@ -1,3 +1,7 @@
+const enrollMessage = document.createElement('div');
+enrollMessage.id = 'enroll-message';
+document.body.appendChild(enrollMessage);
+
 document.addEventListener('DOMContentLoaded', function() {
     fetchCourses();
 });
@@ -7,7 +11,7 @@ async function fetchCourses() {
     const apiUrl = 'http://localhost:8080/api/courses';
 
     try {
-        console.log(`Workspaceing courses from ${apiUrl}...`);
+        console.log(`Fetching courses from ${apiUrl}...`);
         const response = await fetch(apiUrl);
 
         if (!response.ok) {
@@ -64,8 +68,8 @@ function displayCourses(courses) {
             <span class="status ${statusClass}">${statusText}</span>
         </div>
         <div class="course-action" data-label="Action">
-            ${course.isOpen ? 
-                `<button onclick="enroll('${course.id}')">Enroll</button>` :
+            ${course.isOpen ?
+                `<button onclick="enrollInCourse('${course.id}')">Enroll</button>` :
                 '<button disabled>Closed</button>'
             }
         </div>
@@ -74,6 +78,42 @@ function displayCourses(courses) {
     });
 }
 
-function enroll(courseId) {
-    alert(`Enrollment requested for course: ${courseId} (Not implemented yet)`);
+async function enrollInCourse(courseId) {
+    enrollMessage.style.display = 'none';
+
+    try {
+        const response = await fetch('http://localhost:8082/api/enroll', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            },
+            body: JSON.stringify({ courseId: courseId })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || `Enrollment failed: ${response.status}`);
+        }
+
+        const result = await response.json();
+        showEnrollMessage(result.message, 'success');
+
+        fetchCourses();
+
+    } catch (error) {
+        console.error('Enrollment error:', error);
+        showEnrollMessage('Enrolling is currently unavailable. Please try again later.', 'error');
+    }
+}
+
+function showEnrollMessage(message, type) {
+    enrollMessage.textContent = message;
+    enrollMessage.className = '';
+    enrollMessage.classList.add(type);
+    enrollMessage.style.display = 'block';
+
+    setTimeout(() => {
+        enrollMessage.style.display = 'none';
+    }, 4000);
 }
